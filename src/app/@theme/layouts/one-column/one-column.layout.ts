@@ -6,7 +6,7 @@ import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
   templateUrl: './one-column.layout.html',
   styleUrls: ['./one-column.layout.scss'],
 })
-export class OneColumnLayout implements OnDestroy {
+export class OneColumnLayoutComponent implements OnDestroy {
   mobileQuery: MediaQueryList;
 
   fillerNav = Array.from({ length: 50 }, (_, i) => `Nav Item ${i + 1}`);

@@ -1,20 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OneColumnLayout } from './one-column.layout';
+import { OneColumnLayoutComponent } from './one-column.layout';
 
-describe('OneColumnLayout', () => {
-  let component: OneColumnLayout;
-  let fixture: ComponentFixture<OneColumnLayout>;
+describe('OneColumnLayoutComponent', () => {
+  let component: OneColumnLayoutComponent;
+  let fixture: ComponentFixture<OneColumnLayoutComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OneColumnLayout],
+      declarations: [OneColumnLayoutComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OneColumnLayout);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(OneColumnLayoutComponent);
     fixture.detectChanges();
   });
 
