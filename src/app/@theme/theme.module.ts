@@ -5,12 +5,13 @@ import { FooterComponent, HeaderComponent } from './components';
 
 import { OneColumnLayoutComponent } from './layouts';
 import { SharedModule } from '../shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 const COMPONENTS = [FooterComponent, HeaderComponent, OneColumnLayoutComponent];
 
 @NgModule({
   declarations: [...COMPONENTS],
   exports: [CommonModule, ...COMPONENTS],
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule, RouterModule],
 })
 export class ThemeModule {}

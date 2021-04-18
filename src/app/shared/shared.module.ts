@@ -10,6 +10,9 @@ import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { AnutilsDirectivesModule } from 'anutils/directives';
+import { MatExpansionModule } from '@angular/material/expansion';
+
+//TODO: create material const to separete this modules
 @NgModule({
   declarations: [],
   imports: [
@@ -25,6 +28,7 @@ import { AnutilsDirectivesModule } from 'anutils/directives';
     ReactiveFormsModule,
     MatInputModule,
     AnutilsDirectivesModule,
+    MatExpansionModule,
   ],
   exports: [
     MatSidenavModule,
@@ -38,6 +42,7 @@ import { AnutilsDirectivesModule } from 'anutils/directives';
     ReactiveFormsModule,
     MatInputModule,
     AnutilsDirectivesModule,
+    MatExpansionModule,
   ],
 })
 export class SharedModule {}
