@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { AnutilsDirectivesModule } from 'anutils/directives';
 @NgModule({
   declarations: [],
   imports: [
@@ -23,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
+    AnutilsDirectivesModule,
   ],
   exports: [
     MatSidenavModule,
@@ -35,6 +37,7 @@ import { MatInputModule } from '@angular/material/input';
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
+    AnutilsDirectivesModule,
   ],
 })
 export class SharedModule {}

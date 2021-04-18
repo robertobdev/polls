@@ -1,11 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <h2>Log In</h2>
-  <mat-error *ngIf="loginInvalid">
-    The username and password were not recognized
-  </mat-error>
   <mat-form-field>
-    <input matInput placeholder="Email" formControlName="username" required />
-    <mat-error> Please provide a valid email address </mat-error>
+    <input matInput placeholder="Email" formControlName="email" required />
+    <mat-error>{{ this.form.get('email')?.errors?.message }}</mat-error>
   </mat-form-field>
   <mat-form-field>
     <input
@@ -15,8 +12,10 @@
       formControlName="password"
       required
     />
-    <mat-error> Please provide a valid password </mat-error>
+    <mat-error>{{ this.form.get('password')?.errors?.message }}</mat-error>
   </mat-form-field>
-  <awesome-time></awesome-time>
-  <button mat-raised-button color="primary">Login</button>
+  <div class="buttons">
+    <button mat-raised-button color="primary">Login</button>
+    <button mat-button color="warn" routerLink="/auth/request-password">Forget Password</button>
+  </div>
 </form>

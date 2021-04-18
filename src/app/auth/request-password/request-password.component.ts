@@ -1,15 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { ValidateEmail, ValidateRequired } from 'anutils/validators';
 
 @Component({
   selector: 'app-request-password',
   templateUrl: './request-password.component.html',
-  styleUrls: ['./request-password.component.scss']
+  styleUrls: ['./request-password.component.scss'],
 })
-export class RequestPasswordComponent implements OnInit {
+export class RequestPasswordComponent {
+  form: FormGroup;
+  public loginInvalid = false;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      email: new FormControl(null, [ValidateEmail, ValidateRequired]),
+    });
   }
 
+  onSubmit() {}
 }
