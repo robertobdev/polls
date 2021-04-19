@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { Injectable } from '@angular/core';
 import {
   HttpInterceptor,
@@ -15,6 +13,7 @@ import { IHttpErro } from '../interfaces/httpError.interface';
 export class HandleErrorsInterceptor implements HttpInterceptor {
   constructor(private toasterService: ToastrService) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   intercept(request: HttpRequest<any>, next: HttpHandler): any {
     return next.handle(request).pipe(
       tap(
