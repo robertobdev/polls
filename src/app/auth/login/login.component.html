@@ -1,0 +1,23 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h2>Log In</h2>
+  <mat-form-field>
+    <input matInput placeholder="Email" formControlName="email" required />
+    <mat-error>{{ this.form.get('email')?.errors?.message }}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      type="password"
+      placeholder="Password"
+      formControlName="password"
+      required
+    />
+    <mat-error>{{ this.form.get('password')?.errors?.message }}</mat-error>
+  </mat-form-field>
+  <div class="buttons">
+    <button mat-raised-button color="primary">Login</button>
+    <button mat-button color="warn" routerLink="/auth/request-password">
+      Forget Password
+    </button>
+  </div>
+</form>

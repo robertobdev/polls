@@ -1,27 +1,50 @@
 # MyAdmin
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.4.
+## Create new module (crud)
 
-## Development server
+1. Create module
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+```bash
 
-## Code scaffolding
+ng g m pages/MODULE_NAME --routing
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
 
-## Build
+2. Create a base component for you module
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```bash
 
-## Running unit tests
+ng g c pages/MODULE_NAME
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```
 
-## Running end-to-end tests
+> NOTE: Four files will be create, You just need .component file, delete the rest.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+2.1 Code snippet for you .component
 
-## Further help
+```bash
+import { Component } from '@angular/core';
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+@Component({
+  selector: 'app-components',
+  template: ` <router-outlet></router-outlet> `,
+})
+export class MODULE_NAMEComponent {}
+
+```
+
+3. Create componets (REGISTER AND LIST)
+
+```bash
+
+ng g c pages/MODULE_NAME/register-MODULE_NAME
+ng g c pages/MODULE_NAME/list-MODULE_NAME
+
+```
+
+4. Link APP Routing to your module
+
+Add your created module into `pages-routing.module.ts` as lazy loading
+
+
+5. Link your create components in your MODULE_NAME-routing.module.ts file
