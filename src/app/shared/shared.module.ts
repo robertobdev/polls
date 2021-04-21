@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule, LOCALE_ID } from '@angular/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,6 +18,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
+import { MatMenuModule } from '@angular/material/menu';
+
+import localePt from '@angular/common/locales/pt';
+registerLocaleData(localePt, 'pt-BR');
 
 const materialModules = [
   MatSidenavModule,
@@ -36,6 +40,7 @@ const materialModules = [
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatSortModule,
+  MatMenuModule,
 ];
 @NgModule({
   declarations: [],
@@ -52,5 +57,6 @@ const materialModules = [
     AnutilsDirectivesModule,
     ...materialModules,
   ],
+  providers: [{ provide: LOCALE_ID, useValue: 'pt-BR' }],
 })
 export class SharedModule {}

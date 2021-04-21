@@ -1,9 +1,9 @@
-export interface IHttpErro {
+export interface HttpError {
   code: number;
   message: string;
-  data: IData;
+  data: HttpErrorrData;
 }
 
-interface IData {
+interface HttpErrorrData {
   [key: string]: string;
 }

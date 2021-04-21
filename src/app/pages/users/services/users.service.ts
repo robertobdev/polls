@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { IListApi } from 'src/app/shared/interfaces/listApi.interface';
+import { ListApi } from 'src/app/shared/interfaces/listApi.interface';
 
-const usersData: IListApi = {
+const usersData: ListApi = {
   items: [
     {
       id: 1,
@@ -101,7 +101,7 @@ export class UsersService {
     order: string,
     page: number,
     search: any
-  ): Observable<IListApi> {
+  ): Observable<ListApi> {
     return of(usersData).pipe(delay(500));
   }
 }

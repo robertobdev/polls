@@ -7,12 +7,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 const routes: Routes = [
   {
     path: '',
-    //TODO: Add guard
+    component: LoginComponent,
     children: [
-      {
-        path: '',
-        component: LoginComponent,
-      },
       {
         path: 'login',
         component: LoginComponent,

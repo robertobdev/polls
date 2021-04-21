@@ -258,3 +258,12 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
     font-family: 'Roboto';
   }
 }
+
+button#avatar-named {
+  img {
+    @apply ml-2;
+  }
+  .mat-button-wrapper {
+    @apply flex py-1 px-2;
+  }
+}
