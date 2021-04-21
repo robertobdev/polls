@@ -11,38 +11,46 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { AnutilsDirectivesModule } from 'anutils/directives';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
 
-//TODO: create material const to separete this modules
+const materialModules = [
+  MatSidenavModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatButtonModule,
+  MatListModule,
+  MatFormFieldModule,
+  MatCardModule,
+  MatInputModule,
+  MatExpansionModule,
+  MatStepperModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatSortModule,
+];
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatListModule,
-    MatFormFieldModule,
-    MatCardModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
     AnutilsDirectivesModule,
-    MatExpansionModule,
+    ...materialModules,
   ],
   exports: [
-    MatSidenavModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatButtonModule,
-    MatListModule,
-    MatFormFieldModule,
-    MatCardModule,
     FormsModule,
     ReactiveFormsModule,
-    MatInputModule,
     AnutilsDirectivesModule,
-    MatExpansionModule,
+    ...materialModules,
   ],
 })
 export class SharedModule {}

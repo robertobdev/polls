@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -16,7 +17,7 @@ export class LoginComponent {
   form: FormGroup;
   public loginInvalid = false;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private httpClient: HttpClient) {
     this.form = this.fb.group({
       email: new FormControl(null, [ValidateEmail, ValidateRequired]),
       password: new FormControl(null, [
@@ -26,5 +27,15 @@ export class LoginComponent {
     });
   }
 
-  onSubmit() {}
+  onSubmit(): void {
+    void this.httpClient
+      .get('localhost/123')
+      .toPromise()
+      .then(() => {
+        console.log('hehe');
+      })
+      .catch((err) => {
+        console.log('ERR', err);
+      });
+  }
 }

@@ -1,0 +1,161 @@
+<mat-horizontal-stepper #stepper>
+  <mat-step [stepControl]="personFormGroup">
+    <form [formGroup]="personFormGroup" class="flex">
+      <ng-template matStepLabel>Dados pessoais</ng-template>
+      <div class="flex-1 flex flex-col mr-10">
+        <mat-form-field class="w-full">
+          <input matInput placeholder="Nome" formControlName="name" required />
+          <mat-error
+            >{{ this.personFormGroup.get('name')?.errors?.message }}</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field class="w-8/12">
+          <input
+            matInput
+            placeholder="CPF"
+            formControlName="cpf"
+            required
+            anutilsCpfMask
+          />
+          <mat-error
+            >{{ this.personFormGroup.get('cpf')?.errors?.message }}</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field class="w-4/12">
+          <mat-label>Gênero</mat-label>
+          <select matNativeControl required>
+            <option value="male">Masculino</option>
+            <option value="female">Feminino</option>
+            <option value="other">Outros</option>
+          </select>
+          <mat-error
+            >{{ this.personFormGroup.get('gender')?.errors?.message
+            }}</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field class="w-6/12">
+          <mat-label>Data de nascimento</mat-label>
+          <input matInput [max]="maxDate" [matDatepicker]="picker" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            placeholder="Email"
+            formControlName="email"
+            required
+          />
+          <mat-error
+            >{{ this.personFormGroup.get('email')?.errors?.message }}</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field class="w-8/12">
+          <input
+            matInput
+            type="password"
+            placeholder="Senha"
+            formControlName="password"
+            required
+          />
+          <mat-error
+            >{{ this.personFormGroup.get('password')?.errors?.message
+            }}</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field class="w-8/12">
+          <input
+            matInput
+            type="password"
+            placeholder="Confirme a senha"
+            formControlName="confirmPassword"
+            required
+          />
+          <mat-error
+            >{{ this.personFormGroup.get('confirmPassword')?.errors?.message
+            }}</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <mat-form-field class="flex-1">
+        <mat-label>AVATAR</mat-label>
+        <input
+          matInput
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+          required
+        />
+      </mat-form-field>
+    </form>
+    <div class="flex w-full justify-end">
+      <button mat-raised-button color="primary" matStepperNext>Próximo</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="addressFormGroup" label="Endereço">
+    <form [formGroup]="addressFormGroup" class="">
+      <mat-form-field class="w-3/12 mr-2">
+        <input
+          matInput
+          placeholder="Cep"
+          formControlName="zipcode"
+          required
+          anutilsZipCodeMask
+        />
+        <mat-error
+          >{{ this.personFormGroup.get('zipcode')?.errors?.message }}</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="w-8/12">
+        <input
+          matInput
+          placeholder="Endereço"
+          formControlName="street"
+          required
+        />
+        <mat-error
+          >{{ this.personFormGroup.get('street')?.errors?.message }}</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="w-3/12 mr-2">
+        <input
+          matInput
+          placeholder="Bairro"
+          formControlName="neighborhood"
+          required
+        />
+        <mat-error
+          >{{ this.personFormGroup.get('neighborhood')?.errors?.message
+          }}</mat-error
+        >
+      </mat-form-field>
+      <br />
+      <mat-form-field class="w-3/12 mr-2">
+        <input matInput placeholder="Cidade" formControlName="city" required />
+        <mat-error
+          >{{ this.personFormGroup.get('city')?.errors?.message }}</mat-error
+        >
+      </mat-form-field>
+      <mat-form-field class="w-3/12">
+        <input matInput placeholder="Estado" formControlName="state" required />
+        <mat-error
+          >{{ this.personFormGroup.get('state')?.errors?.message }}</mat-error
+        >
+      </mat-form-field>
+      <br />
+      <mat-form-field class="w-3/12">
+        <input matInput placeholder="País" formControlName="country" required />
+        <mat-error
+          >{{ this.personFormGroup.get('country')?.errors?.message }}</mat-error
+        >
+      </mat-form-field>
+      <div class="flex w-full justify-end">
+        <button mat-raised-button matStepperPrevious>Voltar</button>
+        <button mat-button (click)="onSaveUser()">Salvar</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>
