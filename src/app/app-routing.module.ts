@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthorizationGuard } from './shared/guards/authorization/authorization.guard';
+import { LoginGuard } from './shared/guards/login/login.guard';
 
 const routes: Routes = [
   {
     path: '',
-    //TODO: Add guard
+    canActivate: [AuthorizationGuard],
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule),
   },
   {
     path: 'auth',
-    //TODO: Add guard
+    canActivate: [LoginGuard],
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
-  { path: '', redirectTo: 'pages', pathMatch: 'full' },
-  { path: '**', redirectTo: 'pages' },
+  { path: '', redirectTo: '', pathMatch: 'full' },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

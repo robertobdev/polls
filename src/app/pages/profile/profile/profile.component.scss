@@ -1,0 +1,15 @@
+:host {
+  @apply min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8;
+}
+
+form {
+  @apply max-w-md w-full space-y-8 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4;
+}
+
+mat-form-field {
+  @apply w-full;
+}
+
+.buttons {
+  @apply flex justify-between;
+}

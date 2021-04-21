@@ -1,4 +1,4 @@
-export interface IZipcode {
+export interface Zipcode {
   zipcode?: string;
   street: string;
   complement: string;
@@ -7,7 +7,7 @@ export interface IZipcode {
   state: string;
 }
 
-export interface IZipcodeAPI {
+export interface ZipcodeAPI {
   cep: string;
   logradouro: string;
   complemento: string;

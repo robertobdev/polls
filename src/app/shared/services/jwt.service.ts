@@ -1,10 +1,10 @@
 import jwtDecode from 'jwt-decode';
-import { IUser } from '../interfaces/user.interface';
+import { DecodedToken } from '../interfaces/login.interface';
 
 export class JwtServiceUtil {
-  static getDecodedAccessToken(token: string): IUser | null {
+  static getDecodedAccessToken(token: string): DecodedToken | null {
     try {
-      return jwtDecode<IUser>(token);
+      return jwtDecode<DecodedToken>(token);
     } catch (Error) {
       return null;
     }

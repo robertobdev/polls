@@ -8,8 +8,8 @@ import {
 } from 'anutils/validators';
 import { debounceTime } from 'rxjs/operators';
 import {
-  IZipcode,
-  IZipcodeAPI,
+  Zipcode,
+  ZipcodeAPI,
 } from 'src/app/shared/interfaces/zipcode.interface';
 import { ZipcodeService } from 'src/app/shared/services/zipcode.service';
 
@@ -75,9 +75,9 @@ export class RegisterUserComponent implements OnInit {
     if (!zipcode || zipcode.length < 9) {
       return;
     }
-    void this.zipcodeService.getCep(zipcode).then((zipcode: IZipcodeAPI) => {
+    void this.zipcodeService.getCep(zipcode).then((zipcode: ZipcodeAPI) => {
       const { bairro, complemento, localidade, logradouro, uf } = zipcode;
-      const zipcodeTransform: IZipcode = {
+      const zipcodeTransform: Zipcode = {
         city: localidade,
         state: uf,
         neighborhood: bairro,

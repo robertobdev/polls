@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IZipcodeAPI } from '../interfaces/zipcode.interface';
+import { ZipcodeAPI } from '../interfaces/zipcode.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +11,9 @@ export class ZipcodeService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getCep(zipcode: string): Promise<IZipcodeAPI> {
+  getCep(zipcode: string): Promise<ZipcodeAPI> {
     return this.httpClient
-      .get<IZipcodeAPI>(this.ZIPCODE_API(zipcode))
+      .get<ZipcodeAPI>(this.ZIPCODE_API(zipcode))
       .toPromise();
   }
 }

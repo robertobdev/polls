@@ -1,10 +1,5 @@
-import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ValidateEmail, ValidateRequired } from 'anutils/validators';
 
 @Component({
@@ -12,15 +7,15 @@ import { ValidateEmail, ValidateRequired } from 'anutils/validators';
   templateUrl: './request-password.component.html',
   styleUrls: ['./request-password.component.scss'],
 })
-export class RequestPasswordComponent {
-  form: FormGroup;
-  public loginInvalid = false;
+export class RequestPasswordComponent implements OnInit {
+  form!: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {}
+  ngOnInit(): void {
     this.form = this.fb.group({
       email: new FormControl(null, [ValidateEmail, ValidateRequired]),
     });
   }
 
-  onSubmit() {}
+  onRequestPassword() {}
 }

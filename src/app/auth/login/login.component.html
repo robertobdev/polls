@@ -1,5 +1,5 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <h2>Log In</h2>
+<form [formGroup]="form">
+  <h2>Login</h2>
   <mat-form-field>
     <input matInput placeholder="Email" formControlName="email" required />
     <mat-error>{{ this.form.get('email')?.errors?.message }}</mat-error>
@@ -15,9 +15,11 @@
     <mat-error>{{ this.form.get('password')?.errors?.message }}</mat-error>
   </mat-form-field>
   <div class="buttons">
-    <button mat-raised-button color="primary">Login</button>
-    <button mat-button color="warn" routerLink="/auth/request-password">
-      Forget Password
+    <button mat-raised-button color="primary" type="button"  (click)="onLogin()">
+      Login
+    </button>
+    <button mat-button color="warn" type="button"  routerLink="/auth/request-password">
+      Esqueci minha senha
     </button>
   </div>
 </form>

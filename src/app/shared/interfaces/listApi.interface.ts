@@ -1,4 +1,4 @@
-export interface IListApi {
+export interface ListApi {
   items: any[];
   total_count: number;
 }
