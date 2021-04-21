@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -13,11 +13,12 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent {
-  form: FormGroup;
+export class LoginComponent implements OnInit {
+  form!: FormGroup;
   public loginInvalid = false;
 
-  constructor(private fb: FormBuilder, private userService: AuthService) {
+  constructor(private fb: FormBuilder, private userService: AuthService) {}
+  ngOnInit(): void {
     this.form = this.fb.group({
       email: new FormControl('admin@admin.com', [
         ValidateEmail,
@@ -30,7 +31,7 @@ export class LoginComponent {
     });
   }
 
-  onSubmit(): void {
+  onLogin(): void {
     void this.userService.login(this.form.value);
   }
 }
