@@ -1,4 +1,5 @@
-import { MenuItem } from './menu.interface';
+import { ModuleItem } from './menu.interface';
+import { Role } from './role.interface';
 
 export interface User {
   name: string;
@@ -7,5 +8,7 @@ export interface User {
   cpf: string;
   birthday: string;
   gender: string;
-  menus: MenuItem[];
+  modules: ModuleItem[];
+  roles: Role[];
+  acl: Array<string>;
 }

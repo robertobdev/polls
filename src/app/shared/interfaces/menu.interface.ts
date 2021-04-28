@@ -1,8 +1,9 @@
-export interface MenuItem {
+export interface ModuleItem {
+  id?: number;
   title: string;
-  link?: string;
+  router?: string;
   icon?: string;
   prefixUrl?: string;
   expanded?: boolean;
-  children?: MenuItem[];
+  children?: ModuleItem[];
 }

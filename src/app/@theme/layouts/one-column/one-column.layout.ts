@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { MenuItem } from 'src/app/shared/interfaces/menu.interface';
+import { ModuleItem } from 'src/app/shared/interfaces/menu.interface';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { User } from 'src/app/shared/interfaces/user.interface';
@@ -10,7 +10,7 @@ import { User } from 'src/app/shared/interfaces/user.interface';
   styleUrls: ['./one-column.layout.scss'],
 })
 export class OneColumnLayoutComponent implements OnDestroy {
-  @Input() menus: MenuItem[] | undefined;
+  @Input() menus: ModuleItem[] | undefined;
   user: User | null;
   mobileQuery: MediaQueryList;
 
@@ -18,8 +18,7 @@ export class OneColumnLayoutComponent implements OnDestroy {
 
   constructor(mediaMatcher: MediaMatcher, public authService: AuthService) {
     this.user = this.authService.user.value;
-    this.menus = this.user?.menus;
-
+    this.menus = this.user?.modules;
     this.mobileQuery = mediaMatcher.matchMedia('(max-width: 500px)');
 
     this.mobileQueryChangeEvent = this.mobileQuery.addEventListener(

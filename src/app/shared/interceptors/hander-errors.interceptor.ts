@@ -19,9 +19,13 @@ export class HandleErrorsInterceptor implements HttpInterceptor {
       tap(
         () => {},
         ({ error }: HttpErrorResponse) => {
-          const errors = error as HttpError[];
-          for (const err of errors) {
-            this.toasterService.error(err.message, 'ERRO:');
+          const { data } = error as HttpError;
+
+          for (const errorItem of data) {
+            Object.keys(errorItem).forEach((key: string) => {
+              console.log(key);
+              this.toasterService.error(`${key}: ${errorItem[key]}`, 'ERRO:');
+            });
           }
         }
       )

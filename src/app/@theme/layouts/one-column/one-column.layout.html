@@ -36,10 +36,16 @@
             <a
               mat-list-item
               routerLinkActive="is-active"
-              *ngFor="let child of menu.children"
-              [routerLink]="child.link"
+              [routerLink]="menu.router + '/register'"
             >
-              {{child.title}}
+              Criar
+            </a>
+            <a
+              mat-list-item
+              routerLinkActive="is-active"
+              [routerLink]="menu.router + '/list'"
+            >
+              Listar
             </a>
           </mat-expansion-panel>
         </mat-accordion>
