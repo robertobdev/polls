@@ -17,6 +17,10 @@ const routes: Routes = [
         loadChildren: () =>
           import('./profile/profile.module').then((m) => m.ProfileModule),
       },
+      {
+        path: 'acl',
+        loadChildren: () => import('./acl/acl.module').then((m) => m.AclModule),
+      },
     ],
   },
 ];

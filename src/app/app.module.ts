@@ -10,6 +10,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { HandleErrorsInterceptor } from './shared/interceptors/hander-errors.interceptor';
 import { LoginGuard } from './shared/guards/login/login.guard';
 import { AuthorizationGuard } from './shared/guards/authorization/authorization.guard';
+import { HeaderInterceptor } from './shared/interceptors/headers.interceptor';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +22,7 @@ import { AuthorizationGuard } from './shared/guards/authorization/authorization.
     HttpClientModule,
     ThemeModule,
     ToastrModule.forRoot(),
+    GraphQLModule,
   ],
   providers: [
     LoginGuard,
@@ -27,6 +30,11 @@ import { AuthorizationGuard } from './shared/guards/authorization/authorization.
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HandleErrorsInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HeaderInterceptor,
       multi: true,
     },
   ],

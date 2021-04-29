@@ -22,9 +22,8 @@ export class AuthorizationGuard implements CanActivate {
     }
 
     const hasPermission = menus.find((menu) => {
-      return menu.prefixUrl?.includes(stateUrl);
+      return stateUrl.includes(menu.router || '');
     });
-
     return !!hasPermission;
   }
 

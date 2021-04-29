@@ -10,11 +10,25 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
+  private NOTNEEDAUTH = ['/auth'];
   intercept(
     httpRequest: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const API_KEY = '123456';
-    return next.handle(httpRequest.clone({ setHeaders: { API_KEY } }));
+    const accessToken = sessionStorage.getItem('access_token');
+    if (accessToken && this.hasNotNeedAuth(httpRequest.url)) {
+      httpRequest = httpRequest.clone({
+        setHeaders: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+    }
+    return next.handle(httpRequest);
+  }
+
+  private hasNotNeedAuth(url: string) {
+    return !this.NOTNEEDAUTH.find((router) => url.includes(router))?.length;
   }
 }

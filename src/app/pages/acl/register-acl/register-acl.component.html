@@ -1,0 +1,39 @@
+<form [formGroup]="formAcl" class="flex" (ngSubmit)="saveAcl()">
+  <ng-template matStepLabel>Dados pessoais</ng-template>
+  <div class="flex-1 flex flex-col">
+    <mat-form-field class="w-4/12">
+      <mat-label>Função</mat-label>
+      <select matNativeControl formControlName="roleId" required>
+        <option *ngFor="let role of roles" [value]="role.id">
+          {{ role.description }}
+        </option>
+      </select>
+      <mat-error>{{ this.formAcl.get('roleId')?.errors?.message }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-4/12">
+      <mat-label>Módulo</mat-label>
+      <select matNativeControl formControlName="moduleId" required>
+        <option *ngFor="let module of modules" [value]="module.id">
+          {{ module.title }}
+        </option>
+      </select>
+      <mat-error>{{ this.formAcl.get('moduleId')?.errors?.message }}</mat-error>
+    </mat-form-field>
+    <section class="example-section">
+      <mat-checkbox class="px-2" formControlName="isShow">Mostrar</mat-checkbox>
+      <mat-checkbox class="px-2" formControlName="isGet"
+        >Visualizar</mat-checkbox
+      >
+      <mat-checkbox class="px-2" formControlName="isPost">Salvar</mat-checkbox>
+      <mat-checkbox class="px-2" formControlName="isUpdate"
+        >Editar</mat-checkbox
+      >
+      <mat-checkbox class="px-2" formControlName="isDelete"
+        >Excluir</mat-checkbox
+      >
+    </section>
+    <div class="flex w-full justify-end">
+      <button mat-raised-button color="primary">Próximo</button>
+    </div>
+  </div>
+</form>

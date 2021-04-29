@@ -19,6 +19,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import localePt from '@angular/common/locales/pt';
 registerLocaleData(localePt, 'pt-BR');
@@ -41,6 +42,7 @@ const materialModules = [
   MatProgressSpinnerModule,
   MatSortModule,
   MatMenuModule,
+  MatCheckboxModule,
 ];
 @NgModule({
   declarations: [],
