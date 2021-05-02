@@ -4,6 +4,7 @@
     <mat-form-field class="w-4/12">
       <mat-label>Função</mat-label>
       <select matNativeControl formControlName="roleId" required>
+        <option [value]="">Selecione</option>
         <option *ngFor="let role of roles" [value]="role.id">
           {{ role.description }}
         </option>
@@ -13,6 +14,7 @@
     <mat-form-field class="w-4/12">
       <mat-label>Módulo</mat-label>
       <select matNativeControl formControlName="moduleId" required>
+        <option [value]="">Selecione</option>
         <option *ngFor="let module of modules" [value]="module.id">
           {{ module.title }}
         </option>
@@ -33,7 +35,9 @@
       >
     </section>
     <div class="flex w-full justify-end">
-      <button mat-raised-button color="primary">Próximo</button>
+      <button mat-raised-button color="primary" [disabled]="!formAcl.valid">
+        Próximo
+      </button>
     </div>
   </div>
 </form>

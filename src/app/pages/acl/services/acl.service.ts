@@ -52,6 +52,10 @@ export class AclService {
     return this._httpClient.post(`${this.BASEURL}/acl`, acl).toPromise();
   }
 
+  getAcl(id: number): Promise<any> {
+    return this._httpClient.get(`${this.BASEURL}/acl/${id}`).toPromise();
+  }
+
   getAclConfigurations(): Promise<AclResponse> {
     return this._httpClient
       .get<AclResponse>(`${this.BASEURL}/acl/configurations`)

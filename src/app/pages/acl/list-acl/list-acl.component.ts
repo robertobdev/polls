@@ -63,7 +63,6 @@ export class ListAclComponent implements AfterViewInit {
         startWith([]),
         switchMap(() => {
           this.isLoadingResults = true;
-          console.log(this.sort.direction.toLocaleUpperCase());
           const direction = this.sort.direction as 'asc' | 'desc';
           return this._aclService.getAcls({
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -74,7 +73,6 @@ export class ListAclComponent implements AfterViewInit {
           });
         }),
         map((data) => {
-          console.log('here twice?');
           const { nodes, totalCount } = data.data.acls;
           this.resultsLength = totalCount;
           this.isLoadingResults = false;

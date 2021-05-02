@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { ValidateRequired } from 'anutils/validators';
 import { AclSaveBody } from 'src/app/shared/interfaces/acl.interface';
 import { ModuleItem } from 'src/app/shared/interfaces/menu.interface';
@@ -15,19 +16,34 @@ export class RegisterAclComponent implements OnInit {
   formAcl: FormGroup;
   roles!: Role[];
   modules!: ModuleItem[];
+  id!: number;
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _aclService: AclService
+    private _aclService: AclService,
+    private _router: Router,
+    private _activateRouter: ActivatedRoute
   ) {
     this.formAcl = this._formBuilder.group({
-      roleId: new FormControl(1, [ValidateRequired]),
-      moduleId: new FormControl(1, [ValidateRequired]),
+      roleId: new FormControl(null, [ValidateRequired]),
+      moduleId: new FormControl(null, [ValidateRequired]),
       isShow: new FormControl(true, []),
       isGet: new FormControl(true, []),
       isPost: new FormControl(true, []),
       isUpdate: new FormControl(true, []),
       isDelete: new FormControl(true, []),
+    });
+    this._activateRouter.paramMap.subscribe((params: ParamMap) => {
+      this.id = parseInt(params.get('id') as string);
+      if (this.id) {
+        void this._aclService.getAcl(this.id).then((acl) => {
+          if (!acl) {
+            void this._router.navigateByUrl('/acl');
+            return;
+          }
+          this.formAcl.patchValue(acl);
+        });
+      }
     });
   }
 
@@ -40,10 +56,12 @@ export class RegisterAclComponent implements OnInit {
 
   saveAcl(): void {
     const form = this.formAcl.value as AclSaveBody;
-    void this._aclService.saveAcl({
-      ...form,
-      roleId: +form.roleId,
-      moduleId: +form.moduleId,
-    });
+    void this._aclService
+      .saveAcl({
+        ...form,
+        roleId: +form.roleId,
+        moduleId: +form.moduleId,
+      })
+      .then(() => this._router.navigateByUrl('/acl/list'));
   }
 }
