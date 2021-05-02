@@ -10,6 +10,7 @@ import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { GraphqlList } from './../../../shared/interfaces/graphql.interface';
 import { ApolloQueryResult } from '@apollo/client/core';
+import { CrudList } from 'src/app/shared/interfaces/crud-list.interface';
 @Injectable({
   providedIn: 'root',
 })
@@ -18,11 +19,18 @@ export class AclService {
 
   constructor(private _httpClient: HttpClient, private apollo: Apollo) {}
 
-  getAcls(): Observable<ApolloQueryResult<GraphqlList<Acl>>> {
+  getAcls({
+    page,
+    field,
+    order,
+    filter,
+  }: CrudList): Observable<ApolloQueryResult<GraphqlList<Acl>>> {
     return this.apollo.watchQuery<GraphqlList<Acl>>({
       query: gql`
         {
-          acls(paginate: { page: 1, limit: 5 }) {
+          acls(
+            crudList: { page: ${page},filter: "${filter}",field: "${field}", order: "${order}" }
+          ) {
             totalCount
             hasNextPage
             nodes {

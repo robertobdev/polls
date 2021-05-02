@@ -50,37 +50,39 @@ export class ListUsersComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.filteredAndPagedIssues = merge(
-      this.sort?.sortChange,
-      this.paginator?.page,
-      this.searchEmitter.pipe(debounceTime(500), distinctUntilChanged())
-    ).pipe(
-      startWith({}),
-      switchMap(() => {
-        this.isLoadingResults = true;
-        return this._usersService.getUsers(
-          this.sort.active,
-          this.sort.direction,
-          this.paginator.pageIndex,
-          this.searchEmitter.value
-        );
-      }),
-      map((data) => {
-        // Flip flag to show that loading has finished.
-        this.isLoadingResults = false;
-        this.isRateLimitReached = false;
-        this.resultsLength = data.total_count;
+    setTimeout(() => {
+      this.filteredAndPagedIssues = merge(
+        this.sort?.sortChange,
+        this.paginator?.page,
+        this.searchEmitter.pipe(debounceTime(500), distinctUntilChanged())
+      ).pipe(
+        startWith({}),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          return this._usersService.getUsers(
+            this.sort.active,
+            this.sort.direction,
+            this.paginator.pageIndex,
+            this.searchEmitter.value
+          );
+        }),
+        map((data) => {
+          // Flip flag to show that loading has finished.
+          this.isLoadingResults = false;
+          this.isRateLimitReached = false;
+          this.resultsLength = data.total_count;
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return data.items;
-      }),
-      catchError(() => {
-        this.isLoadingResults = false;
-        // Catch if the GitHub API has reached its rate limit. Return empty data.
-        this.isRateLimitReached = true;
-        return observableOf([]);
-      })
-    );
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          return data.items;
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          // Catch if the GitHub API has reached its rate limit. Return empty data.
+          this.isRateLimitReached = true;
+          return observableOf([]);
+        })
+      );
+    }, 5000);
   }
   resetPaging(): void {
     this.paginator.pageIndex = 0;

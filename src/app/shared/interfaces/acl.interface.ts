@@ -1,4 +1,4 @@
-import { Default } from './default.interface';
+import { Default } from './default-entity.interface';
 import { ModuleItem } from './menu.interface';
 import { Role } from './role.interface';
 
