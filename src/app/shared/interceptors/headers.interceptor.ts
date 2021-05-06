@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
-  private NOTNEEDAUTH = ['/auth'];
+  private NOTNEEDAUTH = ['/auth', 'viacep'];
   intercept(
     httpRequest: HttpRequest<any>,
     next: HttpHandler

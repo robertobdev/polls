@@ -1,5 +1,6 @@
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import {
   ValidateCpf,
   ValidateEmail,
@@ -12,17 +13,25 @@ import {
   ZipcodeAPI,
 } from 'src/app/shared/interfaces/zipcode.interface';
 import { ZipcodeService } from 'src/app/shared/services/zipcode.service';
+import { CONTACTYPE } from '../interfaces/contact_type.enum';
 
 @Component({
   selector: 'app-register-user',
   templateUrl: './register-user.component.html',
   styleUrls: ['./register-user.component.scss'],
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { showError: true },
+    },
+  ],
 })
 export class RegisterUserComponent implements OnInit {
   personFormGroup!: FormGroup;
   addressFormGroup!: FormGroup;
-  contactFormGroup!: FormGroup;
+  contactFormGroup!: FormArray;
   maxDate: Date;
+  contactTypes = Object.values(CONTACTYPE);
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -45,7 +54,10 @@ export class RegisterUserComponent implements OnInit {
     });
     this.addressFormGroup = this._formBuilder.group({
       zipcode: new FormControl('', [ValidateRequired]),
-      street: new FormControl('', [ValidateRequired]),
+      number: new FormControl('', [ValidateRequired]),
+      street: new FormControl({ value: null, disabled: true }, [
+        ValidateRequired,
+      ]),
       neighborhood: new FormControl({ value: null, disabled: true }, [
         ValidateRequired,
       ]),
@@ -60,6 +72,15 @@ export class RegisterUserComponent implements OnInit {
       ]),
     });
 
+    this.contactFormGroup = new FormArray([
+      new FormGroup({
+        contactType: new FormControl('', [ValidateRequired]),
+        value: new FormControl('', [ValidateRequired]),
+        complement: new FormControl('', []),
+      }),
+    ]);
+    console.log(this.contactFormGroup);
+
     const password = this.personFormGroup.get('password');
     this.personFormGroup
       .get('confirmPassword')
@@ -69,6 +90,11 @@ export class RegisterUserComponent implements OnInit {
       .get('zipcode')
       ?.valueChanges.pipe(debounceTime(1000))
       .subscribe(this.getApiAddress.bind(this));
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  get contactFormGroup1() {
+    return this.contactFormGroup.controls as FormGroup[];
   }
 
   getApiAddress(zipcode: string): void {
@@ -89,5 +115,32 @@ export class RegisterUserComponent implements OnInit {
     });
   }
 
-  onSaveUser(): void {}
+  addNewContact(): void {
+    const concact = new FormGroup({
+      contactType: new FormControl('', [ValidateRequired]),
+      value: new FormControl('', [ValidateRequired]),
+      complement: new FormControl('', []),
+    });
+
+    this.contactFormGroup.push(concact);
+  }
+
+  removeContact(index: number): void {
+    if (!index) {
+      return;
+    }
+    this.contactFormGroup.removeAt(index);
+  }
+
+  onSaveUser(): void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const person = {
+      ...this.personFormGroup.value,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      addresses: [this.addressFormGroup.getRawValue()],
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      contacts: this.contactFormGroup.value,
+    };
+    console.log(person);
+  }
 }

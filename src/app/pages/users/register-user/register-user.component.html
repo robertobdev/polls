@@ -1,13 +1,16 @@
 <mat-horizontal-stepper #stepper>
-  <mat-step [stepControl]="personFormGroup">
+  <mat-step
+    [stepControl]="personFormGroup"
+    errorMessage="Dados pessoais requeridos."
+  >
     <form [formGroup]="personFormGroup" class="flex">
       <ng-template matStepLabel>Dados pessoais</ng-template>
       <div class="flex-1 flex flex-col mr-10">
         <mat-form-field class="w-full">
           <input matInput placeholder="Nome" formControlName="name" required />
-          <mat-error
-            >{{ this.personFormGroup.get('name')?.errors?.message }}</mat-error
-          >
+          <mat-error>{{
+            this.personFormGroup.get('name')?.errors?.message
+          }}</mat-error>
         </mat-form-field>
         <mat-form-field class="w-8/12">
           <input
@@ -17,25 +20,29 @@
             required
             anutilsCpfMask
           />
-          <mat-error
-            >{{ this.personFormGroup.get('cpf')?.errors?.message }}</mat-error
-          >
+          <mat-error>{{
+            this.personFormGroup.get('cpf')?.errors?.message
+          }}</mat-error>
         </mat-form-field>
         <mat-form-field class="w-4/12">
           <mat-label>Gênero</mat-label>
-          <select matNativeControl required>
+          <select matNativeControl required formControlName="gender">
             <option value="male">Masculino</option>
             <option value="female">Feminino</option>
             <option value="other">Outros</option>
           </select>
-          <mat-error
-            >{{ this.personFormGroup.get('gender')?.errors?.message
-            }}</mat-error
-          >
+          <mat-error>{{
+            this.personFormGroup.get('gender')?.errors?.message
+          }}</mat-error>
         </mat-form-field>
         <mat-form-field class="w-6/12">
           <mat-label>Data de nascimento</mat-label>
-          <input matInput [max]="maxDate" [matDatepicker]="picker" />
+          <input
+            matInput
+            [max]="maxDate"
+            [matDatepicker]="picker"
+            formControlName="birthday"
+          />
           <mat-datepicker-toggle
             matSuffix
             [for]="picker"
@@ -49,9 +56,9 @@
             formControlName="email"
             required
           />
-          <mat-error
-            >{{ this.personFormGroup.get('email')?.errors?.message }}</mat-error
-          >
+          <mat-error>{{
+            this.personFormGroup.get('email')?.errors?.message
+          }}</mat-error>
         </mat-form-field>
         <mat-form-field class="w-8/12">
           <input
@@ -61,10 +68,9 @@
             formControlName="password"
             required
           />
-          <mat-error
-            >{{ this.personFormGroup.get('password')?.errors?.message
-            }}</mat-error
-          >
+          <mat-error>{{
+            this.personFormGroup.get('password')?.errors?.message
+          }}</mat-error>
         </mat-form-field>
         <mat-form-field class="w-8/12">
           <input
@@ -74,10 +80,9 @@
             formControlName="confirmPassword"
             required
           />
-          <mat-error
-            >{{ this.personFormGroup.get('confirmPassword')?.errors?.message
-            }}</mat-error
-          >
+          <mat-error>{{
+            this.personFormGroup.get('confirmPassword')?.errors?.message
+          }}</mat-error>
         </mat-form-field>
       </div>
       <mat-form-field class="flex-1">
@@ -86,7 +91,7 @@
           matInput
           type="password"
           placeholder="Password"
-          formControlName="password"
+          formControlName="avatar"
           required
         />
       </mat-form-field>
@@ -95,8 +100,12 @@
       <button mat-raised-button color="primary" matStepperNext>Próximo</button>
     </div>
   </mat-step>
-  <mat-step [stepControl]="addressFormGroup" label="Endereço">
+  <mat-step
+    [stepControl]="addressFormGroup"
+    errorMessage="Address is required."
+  >
     <form [formGroup]="addressFormGroup" class="">
+      <ng-template matStepLabel>Dados de endereço</ng-template>
       <mat-form-field class="w-3/12 mr-2">
         <input
           matInput
@@ -105,9 +114,9 @@
           required
           anutilsZipCodeMask
         />
-        <mat-error
-          >{{ this.personFormGroup.get('zipcode')?.errors?.message }}</mat-error
-        >
+        <mat-error>{{
+          this.personFormGroup.get('zipcode')?.errors?.message
+        }}</mat-error>
       </mat-form-field>
       <mat-form-field class="w-8/12">
         <input
@@ -116,9 +125,20 @@
           formControlName="street"
           required
         />
-        <mat-error
-          >{{ this.personFormGroup.get('street')?.errors?.message }}</mat-error
-        >
+        <mat-error>{{
+          this.personFormGroup.get('street')?.errors?.message
+        }}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="w-3/12">
+        <input
+          matInput
+          placeholder="Número"
+          formControlName="number"
+          required
+        />
+        <mat-error>{{
+          this.personFormGroup.get('number')?.errors?.message
+        }}</mat-error>
       </mat-form-field>
       <mat-form-field class="w-3/12 mr-2">
         <input
@@ -127,35 +147,100 @@
           formControlName="neighborhood"
           required
         />
-        <mat-error
-          >{{ this.personFormGroup.get('neighborhood')?.errors?.message
-          }}</mat-error
-        >
+        <mat-error>{{
+          this.personFormGroup.get('neighborhood')?.errors?.message
+        }}</mat-error>
       </mat-form-field>
       <br />
       <mat-form-field class="w-3/12 mr-2">
         <input matInput placeholder="Cidade" formControlName="city" required />
-        <mat-error
-          >{{ this.personFormGroup.get('city')?.errors?.message }}</mat-error
-        >
+        <mat-error>{{
+          this.personFormGroup.get('city')?.errors?.message
+        }}</mat-error>
       </mat-form-field>
       <mat-form-field class="w-3/12">
         <input matInput placeholder="Estado" formControlName="state" required />
-        <mat-error
-          >{{ this.personFormGroup.get('state')?.errors?.message }}</mat-error
-        >
+        <mat-error>{{
+          this.personFormGroup.get('state')?.errors?.message
+        }}</mat-error>
       </mat-form-field>
       <br />
       <mat-form-field class="w-3/12">
         <input matInput placeholder="País" formControlName="country" required />
-        <mat-error
-          >{{ this.personFormGroup.get('country')?.errors?.message }}</mat-error
-        >
+        <mat-error>{{
+          this.personFormGroup.get('country')?.errors?.message
+        }}</mat-error>
       </mat-form-field>
       <div class="flex w-full justify-end">
         <button mat-raised-button matStepperPrevious>Voltar</button>
-        <button mat-button (click)="onSaveUser()">Salvar</button>
+        <button mat-raised-button color="primary" matStepperNext>
+          Próximo
+        </button>
       </div>
     </form>
+  </mat-step>
+  <mat-step [stepControl]="contactFormGroup" label="Contatos">
+    <button matRaisedButton (click)="addNewContact()">
+      Adicionar novo contato
+    </button>
+    <div *ngFor="let control of contactFormGroup1; index as i">
+      <button *ngIf="i" matRaisedButton (click)="removeContact(i)">
+        Remover novo contato
+      </button>
+      <form [formGroup]="control" class="">
+        <mat-form-field class="w-4/12">
+          <mat-label>Tipo de contato</mat-label>
+          <select matNativeControl required formControlName="contactType">
+            <option value="">Selecione</option>
+            <option
+              *ngFor="let contactType of contactTypes"
+              [value]="contactType"
+            >
+              {{ contactType }}
+            </option>
+          </select>
+          <mat-error>{{
+            this.personFormGroup.get('gender')?.errors?.message
+          }}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-3/12 mr-2">
+          <input
+            matInput
+            anutils
+            anutilsPhoneMask
+            placeholder="Value"
+            formControlName="value"
+            required
+          />
+          <mat-error>{{
+            this.contactFormGroup.get('value')?.errors?.message
+          }}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-3/12 mr-2">
+          <input
+            matInput
+            placeholder="Complemento"
+            formControlName="complement"
+          />
+          <mat-error>{{
+            this.contactFormGroup.get('complement')?.errors?.message
+          }}</mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="flex w-full justify-end">
+      <button mat-raised-button matStepperPrevious>Voltar</button>
+      <button
+        mat-button
+        (click)="onSaveUser()"
+        [disabled]="
+          contactFormGroup.invalid &&
+          addressFormGroup.invalid &&
+          personFormGroup.invalid
+        "
+      >
+        Salvar
+      </button>
+    </div>
   </mat-step>
 </mat-horizontal-stepper>
