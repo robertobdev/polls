@@ -1,4 +1,4 @@
-import { Address } from 'node:cluster';
+import { Address } from './address.interface';
 import { Default } from 'src/app/shared/interfaces/default-entity.interface';
 import { User } from 'src/app/shared/interfaces/user.interface';
 import { Contact } from './contact.interface';

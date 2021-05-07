@@ -1,6 +1,7 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import {
   ValidateCpf,
   ValidateEmail,
@@ -14,6 +15,8 @@ import {
 } from 'src/app/shared/interfaces/zipcode.interface';
 import { ZipcodeService } from 'src/app/shared/services/zipcode.service';
 import { CONTACTYPE } from '../interfaces/contact_type.enum';
+import { Person } from '../interfaces/person.interface';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-register-user',
@@ -32,14 +35,51 @@ export class RegisterUserComponent implements OnInit {
   contactFormGroup!: FormArray;
   maxDate: Date;
   contactTypes = Object.values(CONTACTYPE);
-
+  id!: number;
+  toCallCepApi = true;
   constructor(
     private _formBuilder: FormBuilder,
-    private zipcodeService: ZipcodeService
+    private _zipcodeService: ZipcodeService,
+    private _router: Router,
+    private _activateRouter: ActivatedRoute,
+    private _userService: UsersService
   ) {
     const currentYear = new Date().getFullYear();
     this.maxDate = new Date(currentYear - 17, 11, 31);
+    this._activateRouter.paramMap.subscribe((params: ParamMap) => {
+      this.id = parseInt(params.get('id') as string);
+      if (this.id) {
+        void this._userService.getPerson(this.id).then((person: Person) => {
+          const { addresses, contacts } = person;
+          if (!person) {
+            void this._router.navigateByUrl('/users');
+            return;
+          }
+          this.personFormGroup.patchValue(person);
+          if (addresses?.length) {
+            this.toCallCepApi = false;
+            this.addressFormGroup.patchValue(addresses[0]);
+          }
+          this.contactFormGroup1.forEach((contactFormGroup, index) => {
+            if (!contacts?.length) {
+              return;
+            }
+            contactFormGroup.patchValue(contacts[index]);
+          });
+          // this.contactFormGroup.patchValue(person?.contacts);
+          // this.formAcl.patchValue(acl);
+        });
+      }
+    });
   }
+
+  // formArrayPatchValues(formArray: FormArray, data: any) {
+  //   if (!data.length) {
+  //     return;
+  //   }
+  //   contactFormGroup;
+
+  // }
 
   ngOnInit(): void {
     this.personFormGroup = this._formBuilder.group({
@@ -98,10 +138,11 @@ export class RegisterUserComponent implements OnInit {
   }
 
   getApiAddress(zipcode: string): void {
-    if (!zipcode || zipcode.length < 9) {
+    if (!zipcode || zipcode.length < 9 || !this.toCallCepApi) {
+      this.toCallCepApi = true;
       return;
     }
-    void this.zipcodeService.getCep(zipcode).then((zipcode: ZipcodeAPI) => {
+    void this._zipcodeService.getCep(zipcode).then((zipcode: ZipcodeAPI) => {
       const { bairro, complemento, localidade, logradouro, uf } = zipcode;
       const zipcodeTransform: Zipcode = {
         city: localidade,
