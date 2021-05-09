@@ -1,6 +1,12 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  RequiredValidator,
+} from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import {
   ValidateCpf,
@@ -9,11 +15,14 @@ import {
   ValidateRequired,
 } from 'anutils/validators';
 import { debounceTime } from 'rxjs/operators';
+import { Role } from 'src/app/shared/interfaces/role.interface';
 import {
   Zipcode,
   ZipcodeAPI,
 } from 'src/app/shared/interfaces/zipcode.interface';
 import { ZipcodeService } from 'src/app/shared/services/zipcode.service';
+import { AclService } from '../../acl/services/acl.service';
+import { Contact } from '../interfaces/contact.interface';
 import { CONTACTYPE } from '../interfaces/contact_type.enum';
 import { Person } from '../interfaces/person.interface';
 import { UsersService } from '../services/users.service';
@@ -32,17 +41,20 @@ import { UsersService } from '../services/users.service';
 export class RegisterUserComponent implements OnInit {
   personFormGroup!: FormGroup;
   addressFormGroup!: FormGroup;
-  contactFormGroup!: FormArray;
+  contactFormArray!: FormArray;
+  roleFormArray!: FormArray;
   maxDate: Date;
   contactTypes = Object.values(CONTACTYPE);
   id!: number;
   toCallCepApi = true;
+  roles!: Role[];
   constructor(
     private _formBuilder: FormBuilder,
     private _zipcodeService: ZipcodeService,
     private _router: Router,
     private _activateRouter: ActivatedRoute,
-    private _userService: UsersService
+    private _userService: UsersService,
+    private _aclService: AclService
   ) {
     const currentYear = new Date().getFullYear();
     this.maxDate = new Date(currentYear - 17, 11, 31);
@@ -56,30 +68,28 @@ export class RegisterUserComponent implements OnInit {
             return;
           }
           this.personFormGroup.patchValue(person);
+          this.personFormGroup.removeControl('password');
+          this.personFormGroup.removeControl('confirmPassword');
           if (addresses?.length) {
             this.toCallCepApi = false;
             this.addressFormGroup.patchValue(addresses[0]);
           }
-          this.contactFormGroup1.forEach((contactFormGroup, index) => {
-            if (!contacts?.length) {
-              return;
-            }
-            contactFormGroup.patchValue(contacts[index]);
+          this.contactFormArray.clear();
+          person.contacts?.forEach((contact) => {
+            this.addNewContact(contact);
           });
-          // this.contactFormGroup.patchValue(person?.contacts);
-          // this.formAcl.patchValue(acl);
+          this.roleFormArray.clear();
+          person.user?.roles.forEach((role) => {
+            this.addNewRole(role);
+          });
         });
       }
     });
+
+    void this._aclService.getAclConfigurations().then(({ roles }) => {
+      this.roles = roles;
+    });
   }
-
-  // formArrayPatchValues(formArray: FormArray, data: any) {
-  //   if (!data.length) {
-  //     return;
-  //   }
-  //   contactFormGroup;
-
-  // }
 
   ngOnInit(): void {
     this.personFormGroup = this._formBuilder.group({
@@ -112,14 +122,17 @@ export class RegisterUserComponent implements OnInit {
       ]),
     });
 
-    this.contactFormGroup = new FormArray([
+    this.contactFormArray = new FormArray([
       new FormGroup({
         contactType: new FormControl('', [ValidateRequired]),
         value: new FormControl('', [ValidateRequired]),
         complement: new FormControl('', []),
       }),
     ]);
-    console.log(this.contactFormGroup);
+
+    this.roleFormArray = new FormArray([
+      new FormControl('', [ValidateRequired]),
+    ]);
 
     const password = this.personFormGroup.get('password');
     this.personFormGroup
@@ -133,8 +146,13 @@ export class RegisterUserComponent implements OnInit {
   }
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  get contactFormGroup1() {
-    return this.contactFormGroup.controls as FormGroup[];
+  get contactFormGroups() {
+    return this.contactFormArray.controls as FormGroup[];
+  }
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  get roleFormControls() {
+    return this.roleFormArray.controls as FormControl[];
   }
 
   getApiAddress(zipcode: string): void {
@@ -156,32 +174,55 @@ export class RegisterUserComponent implements OnInit {
     });
   }
 
-  addNewContact(): void {
+  addNewContact(contact: Contact | null = null): void {
     const concact = new FormGroup({
-      contactType: new FormControl('', [ValidateRequired]),
-      value: new FormControl('', [ValidateRequired]),
-      complement: new FormControl('', []),
+      contactType: new FormControl(contact?.contactType, [ValidateRequired]),
+      value: new FormControl(contact?.value, [ValidateRequired]),
+      complement: new FormControl(contact?.complement, []),
     });
 
-    this.contactFormGroup.push(concact);
+    this.contactFormArray.push(concact);
+  }
+
+  addNewRole(role: Role | null = null): void {
+    this.roleFormArray.push(new FormControl(role?.id, [ValidateRequired]));
+  }
+
+  removeRole(index: number): void {
+    if (!index) {
+      return;
+    }
+    this.roleFormArray.removeAt(index);
   }
 
   removeContact(index: number): void {
     if (!index) {
       return;
     }
-    this.contactFormGroup.removeAt(index);
+    this.contactFormArray.removeAt(index);
   }
 
   onSaveUser(): void {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const person = {
+    const person: Person = {
       ...this.personFormGroup.value,
+      id: this.id,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       addresses: [this.addressFormGroup.getRawValue()],
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      contacts: this.contactFormGroup.value,
+      contacts: this.contactFormArray.value,
+      user: {
+        personId: this.id,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        login: this.personFormGroup.get('email')?.value,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        roles: this.roleFormArray.value,
+      },
     };
-    console.log(person);
+    if (!this.id) {
+      void this._userService.updatePerson(this.id, person);
+      return;
+    }
+    void this._userService.savePerson(person);
   }
 }

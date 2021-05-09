@@ -45,6 +45,11 @@ export class UsersService {
   savePerson(person: Person): Promise<any> {
     return this._httpClient.post(`${this.BASEURL}/people`, person).toPromise();
   }
+  updatePerson(id: number, person: Person): Promise<any> {
+    return this._httpClient
+      .post(`${this.BASEURL}/people/${id}`, person)
+      .toPromise();
+  }
 
   getPerson(id: number): Promise<any> {
     return this._httpClient.get(`${this.BASEURL}/people/${id}`).toPromise();

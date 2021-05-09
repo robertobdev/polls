@@ -27,9 +27,9 @@
         <mat-form-field class="w-4/12">
           <mat-label>Gênero</mat-label>
           <select matNativeControl required formControlName="gender">
-            <option value="male">Masculino</option>
-            <option value="female">Feminino</option>
-            <option value="other">Outros</option>
+            <option value="MALE">Masculino</option>
+            <option value="FEMALE">Feminino</option>
+            <option value="OTHER">Outros</option>
           </select>
           <mat-error>{{
             this.personFormGroup.get('gender')?.errors?.message
@@ -60,7 +60,7 @@
             this.personFormGroup.get('email')?.errors?.message
           }}</mat-error>
         </mat-form-field>
-        <mat-form-field class="w-8/12">
+        <mat-form-field class="w-8/12" *ngIf="!this.id">
           <input
             matInput
             type="password"
@@ -72,7 +72,7 @@
             this.personFormGroup.get('password')?.errors?.message
           }}</mat-error>
         </mat-form-field>
-        <mat-form-field class="w-8/12">
+        <mat-form-field class="w-8/12" *ngIf="!this.id">
           <input
             matInput
             type="password"
@@ -86,11 +86,9 @@
         </mat-form-field>
       </div>
       <mat-form-field class="flex-1">
-        <mat-label>AVATAR</mat-label>
         <input
           matInput
-          type="password"
-          placeholder="Password"
+          placeholder="Avatar"
           formControlName="avatar"
           required
         />
@@ -179,16 +177,16 @@
       </div>
     </form>
   </mat-step>
-  <mat-step [stepControl]="contactFormGroup" label="Contatos">
-    <button matRaisedButton (click)="addNewContact()">
+  <mat-step [stepControl]="contactFormArray" label="Contatos">
+    <button mat-raised-button color="primary" (click)="addNewContact()">
       Adicionar novo contato
     </button>
-    <div *ngFor="let control of contactFormGroup1; index as i">
-      <button *ngIf="i" matRaisedButton (click)="removeContact(i)">
-        Remover novo contato
-      </button>
-      <form [formGroup]="control" class="">
-        <mat-form-field class="w-4/12">
+    <mat-card
+      *ngFor="let control of contactFormGroups; index as i"
+      class="my-4"
+    >
+      <form [formGroup]="control" class="flex flex-col md:flex-row">
+        <mat-form-field class="w-4/12 md:w-full">
           <mat-label>Tipo de contato</mat-label>
           <select matNativeControl required formControlName="contactType">
             <option value="">Selecione</option>
@@ -200,42 +198,79 @@
             </option>
           </select>
           <mat-error>{{
-            this.personFormGroup.get('gender')?.errors?.message
+            control.get('contactType')?.errors?.message
           }}</mat-error>
         </mat-form-field>
-        <mat-form-field class="w-3/12 mr-2">
+        <mat-form-field class="w-4/12 md:w-full">
           <input
             matInput
             anutils
-            anutilsPhoneMask
             placeholder="Value"
             formControlName="value"
             required
           />
-          <mat-error>{{
-            this.contactFormGroup.get('value')?.errors?.message
-          }}</mat-error>
+          <mat-error>{{ control.get('value')?.errors?.message }}</mat-error>
         </mat-form-field>
-        <mat-form-field class="w-3/12 mr-2">
+        <mat-form-field class="w-4/12 md:w-full">
           <input
             matInput
             placeholder="Complemento"
             formControlName="complement"
           />
           <mat-error>{{
-            this.contactFormGroup.get('complement')?.errors?.message
+            control.get('complement')?.errors?.message
           }}</mat-error>
         </mat-form-field>
       </form>
+      <mat-card-actions
+        *ngIf="i"
+        matRaisedButton
+        (click)="removeContact(i)"
+        class="text-right"
+      >
+        <button mat-button color="warn">Remover</button>
+      </mat-card-actions>
+    </mat-card>
+
+    <div class="flex w-full justify-end">
+      <button mat-raised-button matStepperPrevious>Voltar</button>
+      <button mat-raised-button color="primary" matStepperNext>Próximo</button>
     </div>
+  </mat-step>
+  <mat-step [stepControl]="roleFormArray" label="Funções">
+    <button mat-raised-button color="primary" (click)="addNewRole()">
+      Adicionar novo função
+    </button>
+    <mat-card *ngFor="let control of roleFormControls; index as i" class="my-4">
+      <mat-form-field class="w-4/12 md:w-full">
+        <mat-label>Função</mat-label>
+        <select matNativeControl required [formControl]="control">
+          <option value="">Selecione</option>
+          <option *ngFor="let role of roles" [value]="role.id">
+            {{ role.description }}
+          </option>
+        </select>
+        <mat-error>{{ control?.errors?.message }}</mat-error>
+      </mat-form-field>
+      <mat-card-actions
+        *ngIf="i"
+        matRaisedButton
+        (click)="removeRole(i)"
+        class="text-right"
+      >
+        <button mat-button color="warn">Remover</button>
+      </mat-card-actions>
+    </mat-card>
+
     <div class="flex w-full justify-end">
       <button mat-raised-button matStepperPrevious>Voltar</button>
       <button
         mat-button
         (click)="onSaveUser()"
         [disabled]="
-          contactFormGroup.invalid &&
+          contactFormArray.invalid &&
           addressFormGroup.invalid &&
+          roleFormArray.invalid &&
           personFormGroup.invalid
         "
       >
