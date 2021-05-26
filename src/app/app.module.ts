@@ -14,16 +14,22 @@ import { HeaderInterceptor } from './shared/interceptors/headers.interceptor';
 import { GraphQLModule } from './graphql.module';
 import { MockInterceptor } from './shared/interceptors/mock.interceptor';
 import { environment } from 'src/environments/environment';
+import { GraphqlMockInterceptor } from './shared/interceptors/graphql-mock.interceptor';
 
 const mockProvider = {
   provide: HTTP_INTERCEPTORS,
   useClass: MockInterceptor,
   multi: true,
 };
+const mockGraphql = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: GraphqlMockInterceptor,
+  multi: true,
+};
 
 const dynamicProviders = [];
 
-environment.mock && dynamicProviders.push(mockProvider);
+environment.mock && dynamicProviders.push(mockProvider, mockGraphql);
 @NgModule({
   declarations: [AppComponent],
   imports: [
