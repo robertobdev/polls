@@ -1,20 +1,11 @@
 <div class="sidenav" [class.is-mobile]="mobileQuery.matches">
-  <mat-toolbar color="primary" class="toolbar">
-    <button mat-icon-button (click)="snav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <h1 class="app-name">My Admin</h1>
-    <span class="flex-1"></span>
-    <button mat-raised-button id="avatar-named" [matMenuTriggerFor]="menu">
-      <span>{{user?.name}}</span>
-      <img [src]="user?.avatar" class="rounded-full w-8 h-8" />
-    </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="/profile">Perfil</button>
-      <button mat-menu-item (click)="authService.logout()">Sair</button>
-    </mat-menu>
-  </mat-toolbar>
-
+  <app-header
+    [name]="user?.name"
+    [avatar]="user?.avatar"
+    (toogle)="snav.toggle()"
+    (logout)="authService.logout()"
+  >
+  </app-header>
   <mat-sidenav-container
     class="sidenav-container"
     [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
@@ -28,26 +19,30 @@
     >
       <mat-nav-list>
         <mat-accordion multi>
-          <mat-expansion-panel *ngFor="let menu of menus">
-            <mat-expansion-panel-header>
-              <mat-panel-title> {{menu.title}}</mat-panel-title>
-            </mat-expansion-panel-header>
+          <ng-container *ngFor="let menu of menus">
+            <a
+              mat-list-item
+              routerLinkActive="is-active"
+              *ngIf="!menu.submenus"
+              [routerLink]="menu.router"
+            >
+              {{menu.title}}
+            </a>
+            <mat-expansion-panel *ngIf="menu.submenus">
+              <mat-expansion-panel-header>
+                <mat-panel-title> {{menu.title}}</mat-panel-title>
+              </mat-expansion-panel-header>
 
-            <a
-              mat-list-item
-              routerLinkActive="is-active"
-              [routerLink]="menu.router + '/register'"
-            >
-              Criar
-            </a>
-            <a
-              mat-list-item
-              routerLinkActive="is-active"
-              [routerLink]="menu.router + '/list'"
-            >
-              Listar
-            </a>
-          </mat-expansion-panel>
+              <a
+                mat-list-item
+                routerLinkActive="is-active"
+                *ngFor="let submenu of menu.submenus.menus"
+                [routerLink]="submenu.router"
+              >
+                {{submenu.title}}
+              </a>
+            </mat-expansion-panel>
+          </ng-container>
         </mat-accordion>
       </mat-nav-list>
     </mat-sidenav>

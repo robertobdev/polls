@@ -6,17 +6,42 @@
     {
       "description": "ACL",
       "title": "ACL",
-      "router": "/acl"
+      "router": "/acl",
+      "submenus": {
+        "menus": [
+          {
+            "title": "Criar",
+            "router": "register"
+          },
+          {
+            "title": "List",
+            "router": "list"
+          }
+        ]
+      }
     },
     {
       "description": "users",
       "title": "Usuários",
-      "router": "/users"
+      "router": "/users",
+      "submenus": {
+        "menus": [
+          {
+            "title": "Criar",
+            "router": "register"
+          },
+          {
+            "title": "List",
+            "router": "list"
+          }
+        ]
+      }
     },
     {
       "description": "dashboard",
       "title": "Dashboard",
-      "router": "/dashboard"
+      "router": "/dashboard",
+      "submenus": null
     }
   ]
 }

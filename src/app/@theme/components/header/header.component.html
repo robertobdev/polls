@@ -1,25 +1,15 @@
-<mat-toolbar>
-  <button
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with menu icon"
-  >
+<mat-toolbar color="primary" class="toolbar">
+  <button mat-icon-button (click)="handleToogle()">
     <mat-icon>menu</mat-icon>
   </button>
-  <span>My App</span>
-  <span class="example-spacer"></span>
-  <button
-    mat-icon-button
-    class="example-icon favorite-icon"
-    aria-label="Example icon-button with heart icon"
-  >
-    <mat-icon>favorite</mat-icon>
+  <h1 class="app-name">Kunlatek</h1>
+  <span class="flex-1"></span>
+  <button mat-raised-button id="avatar-named" [matMenuTriggerFor]="menu">
+    <span>{{ name }}</span>
+    <img [src]="avatar" class="rounded-full w-8 h-8" />
   </button>
-  <button
-    mat-icon-button
-    class="example-icon"
-    aria-label="Example icon-button with share icon"
-  >
-    <mat-icon>share</mat-icon>
-  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/profile/user">Perfil</button>
+    <button mat-menu-item (click)="handleLogout()">Sair</button>
+  </mat-menu>
 </mat-toolbar>
