@@ -7,10 +7,11 @@ import {
   HttpHandler,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
-  private NOTNEEDAUTH = ['/auth', 'viacep'];
+  private NOT_NEED_AUTH = ['/auth', 'viacep'];
   intercept(
     httpRequest: HttpRequest<any>,
     next: HttpHandler
@@ -28,7 +29,8 @@ export class HeaderInterceptor implements HttpInterceptor {
     return next.handle(httpRequest);
   }
 
-  private hasNotNeedAuth(url: string) {
-    return !this.NOTNEEDAUTH.find((router) => url.includes(router))?.length;
+  private hasNotNeedAuth(fullUrl: string) {
+    const endPoint = fullUrl.replace(environment.baseUrl, '');
+    return !this.NOT_NEED_AUTH.find((router) => endPoint === router)?.length;
   }
 }
