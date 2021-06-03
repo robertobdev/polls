@@ -37,7 +37,7 @@
                 mat-list-item
                 routerLinkActive="is-active"
                 *ngFor="let submenu of menu.submenus.menus"
-                [routerLink]="submenu.router"
+                [routerLink]="menu.router + '/' + submenu.router"
               >
                 {{submenu.title}}
               </a>
