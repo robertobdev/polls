@@ -1,0 +1,72 @@
+{
+  "roles": [
+    {
+      "id": 1,
+      "description": "ADMIN",
+      "createdAt": "2021-04-28T17:33:49.000Z",
+      "updatedAt": "2021-04-28T17:33:49.000Z"
+    },
+    {
+      "id": 2,
+      "description": "MANAGER",
+      "createdAt": "2021-04-28T17:33:49.000Z",
+      "updatedAt": "2021-04-28T17:33:49.000Z"
+    },
+    {
+      "id": 3,
+      "description": "CLIENT",
+      "createdAt": "2021-04-28T17:33:49.000Z",
+      "updatedAt": "2021-04-28T17:33:49.000Z"
+    }
+  ],
+  "modules": [
+    {
+      "id": 1,
+      "title": "ACL",
+      "router": "/acl",
+      "description": "ACL",
+      "createdAt": "2021-04-28T17:33:49.000Z",
+      "updatedAt": "2021-04-28T17:33:49.000Z"
+    },
+    {
+      "id": 2,
+      "title": "Usuários",
+      "router": "/users",
+      "description": "users",
+      "createdAt": "2021-04-28T17:33:49.000Z",
+      "updatedAt": "2021-04-28T17:33:49.000Z"
+    },
+    {
+      "id": 3,
+      "title": "Dashboard",
+      "router": "/dashboard",
+      "description": "dashboard",
+      "createdAt": "2021-04-28T17:33:49.000Z",
+      "updatedAt": "2021-04-28T17:33:49.000Z"
+    },
+    {
+      "id": 4,
+      "title": "Invites",
+      "router": "/invites",
+      "description": "invites",
+      "createdAt": "2021-04-28T17:33:49.000Z",
+      "updatedAt": "2021-04-28T17:33:49.000Z"
+    },
+    {
+      "id": 5,
+      "title": "Employees",
+      "router": "/employees",
+      "description": "employees",
+      "createdAt": "2021-04-28T17:33:49.000Z",
+      "updatedAt": "2021-04-28T17:33:49.000Z"
+    },
+    {
+      "id": 6,
+      "title": "TIckets",
+      "router": "/tickets",
+      "description": "tickets",
+      "createdAt": "2021-04-28T17:33:49.000Z",
+      "updatedAt": "2021-04-28T17:33:49.000Z"
+    }
+  ]
+}
