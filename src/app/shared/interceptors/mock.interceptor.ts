@@ -12,17 +12,26 @@ import {
 import { Observable, of, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import * as authMock from '../mocks/auth-login.mock.json';
+import * as authUserMock from '../mocks/auth-user.mock.json';
 import * as aclConfigurationsMock from '../mocks/acl-configuration.mock.json';
 import { LoginResponse } from '../interfaces/login.interface';
+import { User } from '../interfaces/user.interface';
 
-const auth: LoginResponse = (authMock as any).default;
+const authToken: LoginResponse = (authMock as any).default;
+const authUser: User = (authUserMock as any).default;
 const aclConfigurations = (aclConfigurationsMock as any).default;
 
 const urls = [
   {
     url: `${environment.baseUrl}/auth`,
-    json: auth,
+    json: authToken,
     method: 'POST',
+    hasError: () => false,
+  },
+  {
+    url: `${environment.baseUrl}/auth/user`,
+    json: authUser,
+    method: 'GET',
     hasError: () => false,
   },
   {

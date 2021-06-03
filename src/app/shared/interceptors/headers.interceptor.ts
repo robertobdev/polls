@@ -15,7 +15,7 @@ export class HeaderInterceptor implements HttpInterceptor {
     httpRequest: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const accessToken = sessionStorage.getItem('access_token');
+    const accessToken = localStorage.getItem('access_token');
     if (accessToken && this.hasNotNeedAuth(httpRequest.url)) {
       httpRequest = httpRequest.clone({
         setHeaders: {

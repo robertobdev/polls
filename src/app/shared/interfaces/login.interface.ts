@@ -7,6 +7,7 @@ export interface Login {
 
 export interface LoginResponse {
   access_token: string;
+  refreshToken: string;
 }
 export interface DecodedToken {
   sub: string;
