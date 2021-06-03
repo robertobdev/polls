@@ -22,6 +22,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import localePt from '@angular/common/locales/pt';
+import { MatSelectModule } from '@angular/material/select';
 registerLocaleData(localePt, 'pt-BR');
 
 const materialModules = [
@@ -43,6 +44,7 @@ const materialModules = [
   MatSortModule,
   MatMenuModule,
   MatCheckboxModule,
+  MatSelectModule,
 ];
 @NgModule({
   declarations: [],
