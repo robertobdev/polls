@@ -1,18 +1,41 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { CrudList } from 'src/app/shared/interfaces/crud-list.interface';
-import { GraphqlList } from 'src/app/shared/interfaces/graphql.interface';
+import {
+  GraphqlList,
+  GraphqlOne,
+} from 'src/app/shared/interfaces/graphql.interface';
 import { environment } from 'src/environments/environment';
-import { Person } from '../interfaces/person.interface';
+import { User } from '../interfaces/user.interface';
+import { USER_GRAPHQL_TYPES } from '../interfaces/users-graphql-type.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UsersService {
   BASEURL = environment.baseUrl;
+
+  private graphQL: { [key: string]: any } = {
+    addresses: (id: number): string => `{
+      user(id: ${id}) {
+        addresses {
+          zipcode,
+          street,
+          number,
+          neighborhood,
+          complement,
+          city,
+          state,
+          country,
+        }
+      }
+    }`,
+    contacts: (id: number): string => '123',
+  };
 
   constructor(private _httpClient: HttpClient, private apollo: Apollo) {}
 
@@ -21,8 +44,8 @@ export class UsersService {
     field,
     order,
     filter,
-  }: CrudList): Observable<ApolloQueryResult<GraphqlList<Person>>> {
-    return this.apollo.watchQuery<GraphqlList<Person>>({
+  }: CrudList): Observable<ApolloQueryResult<GraphqlList<User>>> {
+    return this.apollo.watchQuery<GraphqlList<User>>({
       query: gql`
         {
           people(
@@ -42,16 +65,28 @@ export class UsersService {
     }).valueChanges;
   }
 
-  savePerson(person: Person): Promise<any> {
-    return this._httpClient.post(`${this.BASEURL}/people`, person).toPromise();
+  saveUser(user: User): Promise<any> {
+    return this._httpClient.post(`${this.BASEURL}/users`, user).toPromise();
   }
-  updatePerson(id: number, person: Person): Promise<any> {
+
+  updateUser(id: number, user: User): Promise<any> {
     return this._httpClient
-      .post(`${this.BASEURL}/people/${id}`, person)
+      .post(`${this.BASEURL}/users/${id}`, user)
       .toPromise();
   }
 
-  getPerson(id: number): Promise<any> {
-    return this._httpClient.get(`${this.BASEURL}/people/${id}`).toPromise();
+  //TODO: Fix this eslint
+  getUser(
+    id: number,
+    type: USER_GRAPHQL_TYPES
+  ): Observable<ApolloQueryResult<GraphqlOne<User>>> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const query = this.graphQL[type](id);
+
+    return this.apollo.watchQuery<GraphqlOne<User>>({
+      query: gql`
+        ${query}
+      `,
+    }).valueChanges;
   }
 }

@@ -1,0 +1,25 @@
+<form [formGroup]="form">
+  <img src="http://via.placeholder.com/300" />
+  <mat-form-field>
+    <input matInput placeholder="Identificado" formControlName="cpf" />
+    <mat-error>{{ form.get('cpf')?.errors?.message }}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Nome" formControlName="name" />
+    <mat-error>{{ form.get('name')?.errors?.message }}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Gênero" formControlName="gender" />
+    <mat-error>{{ form.get('gender')?.errors?.message }}</mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Data de nascimento"
+      formControlName="birthday"
+    />
+    <mat-error>{{ form.get('birthday')?.errors?.message }}</mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="saveUser()">Salvar</button>
+</form>

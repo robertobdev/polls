@@ -16,7 +16,7 @@ import {
   startWith,
   switchMap,
 } from 'rxjs/operators';
-import { Person } from '../interfaces/person.interface';
+import { User } from '../interfaces/user.interface';
 import { UsersService } from '../services/users.service';
 interface Search {
   filter: string;
@@ -28,7 +28,7 @@ interface Search {
 })
 export class ListUsersComponent implements AfterViewInit {
   displayedColumns: string[] = ['name', 'email', 'cpf', 'actions'];
-  filteredAndPagedUsers: Person[] = [];
+  filteredAndPagedUsers: User[] = [];
 
   formSearch: FormGroup;
   searchEmitter: EventEmitter<Search> = new EventEmitter<Search>();

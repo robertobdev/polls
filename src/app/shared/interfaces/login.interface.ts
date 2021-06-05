@@ -1,10 +1,7 @@
-import { User } from './user.interface';
-
 export interface Login {
   login: string;
   password: string;
 }
-
 export interface LoginResponse {
   access_token: string;
   refreshToken: string;
@@ -12,5 +9,4 @@ export interface LoginResponse {
 export interface DecodedToken {
   sub: string;
   iat: string;
-  user: User;
 }

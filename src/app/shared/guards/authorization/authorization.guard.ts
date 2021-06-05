@@ -32,7 +32,8 @@ export class AuthorizationGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean {
     const user = this.auth.user.value;
-    const hasPermission = user && this.hasPermission(user.modules, state.url);
+    const hasPermission =
+      user && this.hasPermission(user?.modules || [], state.url);
     if (!hasPermission) {
       void this.router.navigate(['/auth/login']);
       return false;

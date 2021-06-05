@@ -1,0 +1,18 @@
+:host {
+  @apply m-5 p-5 flex flex-col;
+}
+
+form {
+  @apply w-full space-y-8 bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4;
+}
+img {
+  @apply w-32 h-32 rounded-full mx-auto;
+}
+
+mat-form-field {
+  @apply w-full;
+}
+
+button {
+  @apply block w-32 mx-auto;
+}

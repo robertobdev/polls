@@ -15,7 +15,7 @@ import * as authMock from '../mocks/auth-login.mock.json';
 import * as authUserMock from '../mocks/auth-user.mock.json';
 import * as aclConfigurationsMock from '../mocks/acl-configuration.mock.json';
 import { LoginResponse } from '../interfaces/login.interface';
-import { User } from '../interfaces/user.interface';
+import { User } from '../../pages/users/interfaces/user.interface';
 
 const authToken: LoginResponse = (authMock as any).default;
 const authUser: User = (authUserMock as any).default;

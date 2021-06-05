@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { ModuleItem } from 'src/app/shared/interfaces/menu.interface';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
-import { User } from 'src/app/shared/interfaces/user.interface';
+import { User } from '../../../pages/users/interfaces/user.interface';
 
 @Component({
   selector: 'app-one-column',

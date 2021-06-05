@@ -24,7 +24,7 @@ import { ZipcodeService } from 'src/app/shared/services/zipcode.service';
 import { AclService } from '../../acl/services/acl.service';
 import { Contact } from '../interfaces/contact.interface';
 import { CONTACTYPE } from '../interfaces/contact_type.enum';
-import { Person } from '../interfaces/person.interface';
+import { User } from '../interfaces/user.interface';
 import { UsersService } from '../services/users.service';
 
 @Component({
@@ -61,28 +61,28 @@ export class RegisterUserComponent implements OnInit {
     this._activateRouter.paramMap.subscribe((params: ParamMap) => {
       this.id = parseInt(params.get('id') as string);
       if (this.id) {
-        void this._userService.getPerson(this.id).then((person: Person) => {
-          const { addresses, contacts } = person;
-          if (!person) {
-            void this._router.navigateByUrl('/users');
-            return;
-          }
-          this.personFormGroup.patchValue(person);
-          this.personFormGroup.removeControl('password');
-          this.personFormGroup.removeControl('confirmPassword');
-          if (addresses?.length) {
-            this.toCallCepApi = false;
-            this.addressFormGroup.patchValue(addresses[0]);
-          }
-          this.contactFormArray.clear();
-          person.contacts?.forEach((contact) => {
-            this.addNewContact(contact);
-          });
-          this.roleFormArray.clear();
-          person.user?.roles.forEach((role) => {
-            this.addNewRole(role);
-          });
-        });
+        // void this._userService.getUser(this.id, null).then((person: Person) => {
+        //   const { addresses, contacts } = person;
+        //   if (!person) {
+        //     void this._router.navigateByUrl('/users');
+        //     return;
+        //   }
+        //   this.personFormGroup.patchValue(person);
+        //   this.personFormGroup.removeControl('password');
+        //   this.personFormGroup.removeControl('confirmPassword');
+        //   if (addresses?.length) {
+        //     this.toCallCepApi = false;
+        //     this.addressFormGroup.patchValue(addresses[0]);
+        //   }
+        //   this.contactFormArray.clear();
+        //   person.contacts?.forEach((contact) => {
+        //     this.addNewContact(contact);
+        //   });
+        //   this.roleFormArray.clear();
+        //   person.user?.roles.forEach((role) => {
+        //     this.addNewRole(role);
+        //   });
+        // });
       }
     });
 
@@ -204,7 +204,7 @@ export class RegisterUserComponent implements OnInit {
 
   onSaveUser(): void {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const person: Person = {
+    const person: User = {
       ...this.personFormGroup.value,
       id: this.id,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -220,9 +220,9 @@ export class RegisterUserComponent implements OnInit {
       },
     };
     if (!this.id) {
-      void this._userService.updatePerson(this.id, person);
+      void this._userService.updateUser(this.id, person);
       return;
     }
-    void this._userService.savePerson(person);
+    void this._userService.saveUser(person);
   }
 }

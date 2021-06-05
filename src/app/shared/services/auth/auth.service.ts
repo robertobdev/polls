@@ -4,10 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { User } from '../../interfaces/user.interface';
 import { Login, LoginResponse } from '../../interfaces/login.interface';
-import { JwtServiceUtil } from '../jwt.service';
-import { tap } from 'rxjs/operators';
+import { User } from '../../../pages/users/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root',
