@@ -12,7 +12,13 @@ import { AuthService } from '../../services/auth/auth.service';
   providedIn: 'root',
 })
 export class AuthorizationGuard implements CanActivate {
-  private COMMON_MODULE = ['/', '/profile'];
+  //TODO: Fix this common module
+  private COMMON_MODULE = [
+    '/',
+    '/profile/user',
+    '/profile/addresses',
+    '/profile/contacts',
+  ];
 
   constructor(private auth: AuthService, private router: Router) {}
 

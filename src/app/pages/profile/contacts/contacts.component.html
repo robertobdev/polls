@@ -20,10 +20,6 @@
   </mat-card-header>
   <form [formGroup]="control">
     <mat-form-field class="w-4/12 mr-2">
-      <input matInput placeholder="Identificado" formControlName="identify" />
-      <mat-error>{{ control.get('identify')?.errors?.message }}</mat-error>
-    </mat-form-field>
-    <mat-form-field class="w-4/12 mr-2">
       <mat-label>Tipo de contato</mat-label>
       <select matNativeControl required formControlName="contactType">
         <option value="">Selecione</option>

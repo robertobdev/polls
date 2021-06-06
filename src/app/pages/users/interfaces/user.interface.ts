@@ -6,6 +6,7 @@ import { ModuleItem } from '../../../shared/interfaces/menu.interface';
 import { Role } from '../../../shared/interfaces/role.interface';
 
 export interface User extends Default {
+  id: number;
   name: string;
   cpf: string;
   email: string;

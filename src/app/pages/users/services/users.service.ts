@@ -23,6 +23,7 @@ export class UsersService {
     addresses: (id: number): string => `{
       user(id: ${id}) {
         addresses {
+          id,
           zipcode,
           street,
           number,
@@ -34,7 +35,16 @@ export class UsersService {
         }
       }
     }`,
-    contacts: (id: number): string => '123',
+    contacts: (id: number): string => `{
+      user(id: ${id}) {
+        contacts {
+          id,
+          contactType,
+          value,
+          complement
+        }
+      }
+    }`,
   };
 
   constructor(private _httpClient: HttpClient, private apollo: Apollo) {}
