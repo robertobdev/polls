@@ -1,5 +1,18 @@
 <form [formGroup]="form">
-  <img src="http://via.placeholder.com/300" />
+  <img [src]="form.get('avatar')?.value" />
+  <input
+    type="file"
+    #fileInput
+    id="uploadFile"
+    (change)="uploadFileEvt($event.target)"
+    name="uploadFile"
+    multiple="multiple"
+    accept="image/*"
+    class="hidden"
+  />
+  <button mat-raised-button color="primary" (click)="openFile()">
+    Alterar Avatar
+  </button>
   <mat-form-field>
     <input matInput placeholder="Identificado" formControlName="cpf" />
     <mat-error>{{ form.get('cpf')?.errors?.message }}</mat-error>
@@ -8,18 +21,29 @@
     <input matInput placeholder="Nome" formControlName="name" />
     <mat-error>{{ form.get('name')?.errors?.message }}</mat-error>
   </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Gênero" formControlName="gender" />
+  <mat-form-field class="w-4/12">
+    <mat-label>Gênero</mat-label>
+    <select matNativeControl required formControlName="gender">
+      <option value="MALE">Masculino</option>
+      <option value="FEMALE">Feminino</option>
+      <option value="OTHER">Outros</option>
+    </select>
     <mat-error>{{ form.get('gender')?.errors?.message }}</mat-error>
   </mat-form-field>
   <mat-form-field>
-    <input
-      matInput
-      placeholder="Data de nascimento"
-      formControlName="birthday"
-    />
+    <mat-label>Data de nascimento</mat-label>
+    <input matInput [matDatepicker]="dp3" formControlName="birthday" />
+    <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+    <mat-datepicker #dp3 disabled="false"></mat-datepicker>
     <mat-error>{{ form.get('birthday')?.errors?.message }}</mat-error>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" (click)="saveUser()">Salvar</button>
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="form.invalid"
+    (click)="saveUser()"
+  >
+    Salvar
+  </button>
 </form>

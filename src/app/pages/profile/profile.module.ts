@@ -7,7 +7,6 @@ import { ProfileComponent } from './profile.component';
 import { UserComponent } from './user/user.component';
 import { AddressesComponent } from './addresses/addresses.component';
 import { ContactsComponent } from './contacts/contacts.component';
-import { DocumentsComponent } from './documents/documents.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
@@ -16,7 +15,6 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     UserComponent,
     AddressesComponent,
     ContactsComponent,
-    DocumentsComponent,
     ChangePasswordComponent,
   ],
   imports: [CommonModule, ProfileRoutingModule, SharedModule],
