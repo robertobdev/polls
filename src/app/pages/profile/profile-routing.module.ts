@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AddressesComponent } from './addresses/addresses.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ContactsComponent } from './contacts/contacts.component';
-import { DocumentsComponent } from './documents/documents.component';
 import { ProfileComponent } from './profile.component';
 import { UserComponent } from './user/user.component';
 
@@ -23,10 +22,6 @@ const routes: Routes = [
       {
         path: 'contacts',
         component: ContactsComponent,
-      },
-      {
-        path: 'documents',
-        component: DocumentsComponent,
       },
       {
         path: 'change-password',

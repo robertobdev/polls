@@ -20,10 +20,6 @@ export class ProfileComponent {
       router: '/profile/contacts',
     },
     {
-      name: 'Documentos',
-      router: '/profile/documents',
-    },
-    {
       name: 'Alterar Senha ',
       router: '/profile/change-password',
     },
