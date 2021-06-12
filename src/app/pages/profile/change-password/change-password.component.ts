@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ValidateMatchPassword, ValidateRequired } from 'anutils/validators';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { User } from '../../users/interfaces/user.interface';
+import { ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'app-change-password',
@@ -10,7 +12,12 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
 })
 export class ChangePasswordComponent {
   form: FormGroup;
-  constructor(private _authService: AuthService) {
+  user: User;
+  constructor(
+    private _profileService: ProfileService,
+    private _authService: AuthService
+  ) {
+    this.user = this._authService.user.value as User;
     this.form = new FormGroup({
       currentPassword: new FormControl(null, [ValidateRequired]),
       newPassword: new FormControl(null, [ValidateRequired]),
@@ -23,6 +30,6 @@ export class ChangePasswordComponent {
   }
 
   handleChangePassword(): void {
-    console.log(this.form.getRawValue());
+    void this._profileService.changePassword(this.user.id, this.form.value);
   }
 }

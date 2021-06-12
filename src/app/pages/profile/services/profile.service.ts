@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Address } from '../../users/interfaces/address.interface';
 import { Contact } from '../../users/interfaces/contact.interface';
+import { ChangePassword } from '../interfaces/change-password.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,12 @@ export class ProfileService {
     };
     return this._httpClient
       .patch(`${this.BASEURL}/users/addresses/${userId}`, user)
+      .toPromise();
+  }
+
+  changePassword(userId: number, passwords: ChangePassword): Promise<any> {
+    return this._httpClient
+      .patch(`${this.BASEURL}/users/change-password/${userId}`, passwords)
       .toPromise();
   }
 
