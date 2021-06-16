@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -43,7 +43,7 @@ export class AuthService {
       });
   }
 
-  login(login: Login): Promise<void | LoginResponse> {
+  async login(login: Login): Promise<void | LoginResponse> {
     return this.http
       .post(`${this.BASEURL}/auth`, login)
       .toPromise()
@@ -51,6 +51,12 @@ export class AuthService {
         const { access_token } = res as LoginResponse;
         this.setUserAndTokenLocalStorage(access_token);
       });
+  }
+
+  async requestPassword(login: { email: string }): Promise<any> {
+    return this.http
+      .post(`${this.BASEURL}/auth/request-password`, login)
+      .toPromise();
   }
 
   logout(): void {

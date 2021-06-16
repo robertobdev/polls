@@ -26,9 +26,10 @@ export class HandleErrorsInterceptor implements HttpInterceptor {
           const isGetMethod = httpResponse.type && request.method === 'GET';
           const isGraphql = httpResponse.url?.includes('graphql');
 
-          if (!httpResponse.type || isGetMethod || isGraphql) {
+          if (isGetMethod || isGraphql || !httpResponse.body?.message) {
             return;
           }
+
           this.toasterService.success(httpResponse.body?.message, 'Sucesso:');
         },
         ({ error }: HttpErrorResponse) => {
