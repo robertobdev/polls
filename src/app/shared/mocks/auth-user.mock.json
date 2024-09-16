@@ -1,0 +1,47 @@
+{
+  "id": 1,
+  "name": "Admin 1",
+  "avatar": "https://thumbs.dreamstime.com/b/opte-pelo-avatar-placeholder-da-foto-%C3%ADcone-do-perfil-124557887.jpg",
+  "modules": [
+    {
+      "description": "ACL",
+      "title": "ACL",
+      "router": "/acl",
+      "submenus": {
+        "menus": [
+          {
+            "title": "Criar",
+            "router": "register"
+          },
+          {
+            "title": "List",
+            "router": "list"
+          }
+        ]
+      }
+    },
+    {
+      "description": "users",
+      "title": "Usuários",
+      "router": "/users",
+      "submenus": {
+        "menus": [
+          {
+            "title": "Criar",
+            "router": "register"
+          },
+          {
+            "title": "List",
+            "router": "list"
+          }
+        ]
+      }
+    },
+    {
+      "description": "dashboard",
+      "title": "Dashboard",
+      "router": "/dashboard",
+      "submenus": null
+    }
+  ]
+}

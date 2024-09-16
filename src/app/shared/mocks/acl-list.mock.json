@@ -1,0 +1,71 @@
+{
+  "data": {
+    "acls": {
+      "totalCount": 10,
+      "hasNextPage": false,
+      "nodes": [
+        {
+          "id": 27,
+          "module": { "description": "users", "__typename": "Modules" },
+          "role": { "description": "CLIENT", "__typename": "Role" },
+          "__typename": "Acl"
+        },
+        {
+          "id": 24,
+          "module": { "description": "employees", "__typename": "Modules" },
+          "role": { "description": "CLIENT", "__typename": "Role" },
+          "__typename": "Acl"
+        },
+        {
+          "id": 23,
+          "module": { "description": "tickets", "__typename": "Modules" },
+          "role": { "description": "CLIENT", "__typename": "Role" },
+          "__typename": "Acl"
+        },
+        {
+          "id": 22,
+          "module": { "description": "invites", "__typename": "Modules" },
+          "role": { "description": "CLIENT", "__typename": "Role" },
+          "__typename": "Acl"
+        },
+        {
+          "id": 21,
+          "module": { "description": "tickets", "__typename": "Modules" },
+          "role": { "description": "MANAGER", "__typename": "Role" },
+          "__typename": "Acl"
+        },
+        {
+          "id": 20,
+          "module": { "description": "employees", "__typename": "Modules" },
+          "role": { "description": "MANAGER", "__typename": "Role" },
+          "__typename": "Acl"
+        },
+        {
+          "id": 19,
+          "module": { "description": "invites", "__typename": "Modules" },
+          "role": { "description": "MANAGER", "__typename": "Role" },
+          "__typename": "Acl"
+        },
+        {
+          "id": 18,
+          "module": { "description": "tickets", "__typename": "Modules" },
+          "role": { "description": "ADMIN", "__typename": "Role" },
+          "__typename": "Acl"
+        },
+        {
+          "id": 17,
+          "module": { "description": "employees", "__typename": "Modules" },
+          "role": { "description": "ADMIN", "__typename": "Role" },
+          "__typename": "Acl"
+        },
+        {
+          "id": 16,
+          "module": { "description": "invites", "__typename": "Modules" },
+          "role": { "description": "ADMIN", "__typename": "Role" },
+          "__typename": "Acl"
+        }
+      ],
+      "__typename": "AclResponse"
+    }
+  }
+}

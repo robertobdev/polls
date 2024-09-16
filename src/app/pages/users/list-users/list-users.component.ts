@@ -2,12 +2,12 @@ import {
   Component,
   ViewChild,
   AfterViewInit,
-  ChangeDetectionStrategy,
+  EventEmitter,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { BehaviorSubject, merge, Observable, of as observableOf } from 'rxjs';
+import { merge, of as observableOf } from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -16,73 +16,75 @@ import {
   startWith,
   switchMap,
 } from 'rxjs/operators';
+import { User } from '../interfaces/user.interface';
 import { UsersService } from '../services/users.service';
-
+interface Search {
+  filter: string;
+}
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-list-users',
   templateUrl: './list-users.component.html',
   styleUrls: ['./list-users.component.scss'],
 })
 export class ListUsersComponent implements AfterViewInit {
-  displayedColumns: string[] = ['name', 'cpf', 'email', 'actions'];
-  filteredAndPagedIssues!: Observable<any>;
+  displayedColumns: string[] = ['name', 'email', 'cpf', 'actions'];
+  filteredAndPagedUsers: User[] = [];
 
   formSearch: FormGroup;
-  searchEmitter: BehaviorSubject<any>;
+  searchEmitter: EventEmitter<Search> = new EventEmitter<Search>();
 
   resultsLength = 0;
+  //TODO: See this
+  //TODO: See angular order in eslint variables
   isLoadingResults = true;
   isRateLimitReached = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private _usersService: UsersService, private fb: FormBuilder) {
-    this.formSearch = this.fb.group({
-      search_value: [null],
+  constructor(private _peopleService: UsersService) {
+    this.formSearch = new FormGroup({
+      filter: new FormControl('', []),
     });
-    this.searchEmitter = new BehaviorSubject<null>(null);
   }
 
   onSearch(): void {
-    this.searchEmitter.next(this.formSearch.value);
+    this.searchEmitter.emit(this.formSearch.value);
   }
 
   ngAfterViewInit(): void {
-    this.filteredAndPagedIssues = merge(
+    merge(
       this.sort?.sortChange,
       this.paginator?.page,
       this.searchEmitter.pipe(debounceTime(500), distinctUntilChanged())
-    ).pipe(
-      startWith({}),
-      switchMap(() => {
-        this.isLoadingResults = true;
-        return this._usersService.getUsers(
-          this.sort.active,
-          this.sort.direction,
-          this.paginator.pageIndex,
-          this.searchEmitter.value
-        );
-      }),
-      map((data) => {
-        // Flip flag to show that loading has finished.
-        this.isLoadingResults = false;
-        this.isRateLimitReached = false;
-        this.resultsLength = data.total_count;
-
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return data.items;
-      }),
-      catchError(() => {
-        this.isLoadingResults = false;
-        // Catch if the GitHub API has reached its rate limit. Return empty data.
-        this.isRateLimitReached = true;
-        return observableOf([]);
-      })
-    );
-  }
-  resetPaging(): void {
-    this.paginator.pageIndex = 0;
+    )
+      .pipe(
+        startWith([]),
+        switchMap(() => {
+          this.isLoadingResults = true;
+          const direction = this.sort.direction as 'asc' | 'desc';
+          return this._peopleService.getPeople({
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            ...this.formSearch.value,
+            field: this.sort.active,
+            order: direction,
+            page: this.paginator.pageIndex + 1,
+          });
+        }),
+        map((data) => {
+          const { nodes, totalCount } = data.data.people;
+          this.resultsLength = totalCount;
+          this.isLoadingResults = false;
+          this.isRateLimitReached = false;
+          return nodes;
+        }),
+        catchError(() => {
+          this.isLoadingResults = false;
+          // Catch if the GitHub API has reached its rate limit. Return empty data.
+          this.isRateLimitReached = true;
+          return observableOf([]);
+        })
+      )
+      .subscribe((data) => (this.filteredAndPagedUsers = data));
   }
 }

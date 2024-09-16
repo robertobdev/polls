@@ -1,0 +1,75 @@
+<mat-card class="mb-8">
+  <h2>Endereços</h2>
+</mat-card>
+<div class="flex justify-between">
+  <button mat-raised-button color="primary" (click)="addNewAddress()">
+    Adicionar novo contato
+  </button>
+  <button
+    mat-raised-button
+    [disabled]="addressFormArray.invalid"
+    color="primary"
+    (click)="saveAddresses()"
+  >
+    Salvar
+  </button>
+</div>
+<mat-card *ngFor="let control of addressFormGroups; index as i" class="my-4">
+  <mat-card-header>
+    <mat-card-title>Endereço {{ i + 1 }}</mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="control">
+    <mat-form-field class="w-3/12 mr-2">
+      <input
+        matInput
+        placeholder="Cep"
+        formControlName="zipcode"
+        required
+        anutilsZipCodeMask
+      />
+      <mat-error>{{ control.get('zipcode')?.errors?.message }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-8/12">
+      <input
+        matInput
+        placeholder="Endereço"
+        formControlName="street"
+        required
+      />
+      <mat-error>{{ control.get('street')?.errors?.message }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-3/12 mr-2">
+      <input matInput placeholder="Número" formControlName="number" required />
+      <mat-error>{{ control.get('number')?.errors?.message }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-3/12 mr-2">
+      <input
+        matInput
+        placeholder="Bairro"
+        formControlName="neighborhood"
+        required
+      />
+      <mat-error>{{ control.get('neighborhood')?.errors?.message }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-2/12 mr-2">
+      <input matInput placeholder="Cidade" formControlName="city" required />
+      <mat-error>{{ control.get('city')?.errors?.message }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-2/12 mr-2">
+      <input matInput placeholder="Estado" formControlName="state" required />
+      <mat-error>{{ control.get('state')?.errors?.message }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="w-2/12">
+      <input matInput placeholder="País" formControlName="country" required />
+      <mat-error>{{ control.get('country')?.errors?.message }}</mat-error>
+    </mat-form-field>
+  </form>
+  <mat-card-actions
+    *ngIf="i"
+    matRaisedButton
+    (click)="removeAddress(i)"
+    class="text-right"
+  >
+    <button mat-button color="warn">Remover</button>
+  </mat-card-actions>
+</mat-card>

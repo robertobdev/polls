@@ -5,26 +5,31 @@ import {
   RouterStateSnapshot,
   Router,
 } from '@angular/router';
-import { MenuItem } from '../../interfaces/menu.interface';
+import { ModuleItem } from '../../interfaces/menu.interface';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthorizationGuard implements CanActivate {
-  private COMMON_MODULE = ['/', '/profile'];
+  //TODO: Fix this common module
+  private COMMON_MODULE = [
+    '/',
+    '/profile/user',
+    '/profile/addresses',
+    '/profile/contacts',
+  ];
 
   constructor(private auth: AuthService, private router: Router) {}
 
-  private hasPermission(menus: MenuItem[], stateUrl: string): boolean {
+  private hasPermission(menus: ModuleItem[], stateUrl: string): boolean {
     if (this.COMMON_MODULE.includes(stateUrl)) {
       return true;
     }
 
     const hasPermission = menus.find((menu) => {
-      return menu.prefixUrl?.includes(stateUrl);
+      return stateUrl.includes(menu.router || '');
     });
-
     return !!hasPermission;
   }
 
@@ -33,7 +38,8 @@ export class AuthorizationGuard implements CanActivate {
     state: RouterStateSnapshot
   ): boolean {
     const user = this.auth.user.value;
-    const hasPermission = user && this.hasPermission(user.menus, state.url);
+    const hasPermission =
+      user && this.hasPermission(user?.modules || [], state.url);
     if (!hasPermission) {
       void this.router.navigate(['/auth/login']);
       return false;
